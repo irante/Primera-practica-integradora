@@ -1,13 +1,7 @@
 [
   {
-    "id": "1",
-    "products": [{"title": "parlantes",
-                "descripcion": "parlantes Genius",
-                "price": 15300,
-                 "thumbnail": "./parlante.jpg",
-                 "code": "as7229",
-                 "stock": 2,
-                "id": 3}]
+    "id": 1,
+    "products": []
   },
   {
     "id": 2,

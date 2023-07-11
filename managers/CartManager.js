@@ -2,7 +2,7 @@ const fs = require('fs/promises');
 const path = require('path');
 
 class CartManager {
-  #productos = [];
+  #products = [];
   #carts = [];
 
   constructor(filename) {
@@ -53,6 +53,32 @@ class CartManager {
     
     return cart.products;
   }
+
+  async AgregarProducto(idcart, idprod){
+    await this.#readFile()                  //lee el carrito
+
+    let indice = this.#carts.findIndex=((el)=>el.id == idcart)   // busca el indice del objeto que tiene el id especificado
+
+    if (this.#carts[indice].products = []){                               // si el objeto tiene propiedad producto con array vacio...
+      this.#carts[indice].products = [{stock:1, idproduct : idprod}]
+
+    }else{
+      let stock = this.#carts[indice].products...... // no se como leer el stock en toda esa ruta de arreglos y objetos...
+          
+
+
+    }
+
+    
+
+
+
+
+
+  }
+
+
+
 
 
 
