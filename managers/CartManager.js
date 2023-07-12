@@ -13,7 +13,7 @@ class CartManager {
   #readFile = async () => {
     const data = await fs.readFile(this.filepath, 'utf-8');
     this.#carts = JSON.parse(data)
-
+    
 
   };
 
@@ -54,27 +54,52 @@ class CartManager {
     return cart.products;
   }
 
-  async AgregarProducto(idcart, idprod){
-    await this.#readFile()                  //lee el carrito
-
-    let indice = this.#carts.findIndex=((el)=>el.id == idcart)   // busca el indice del objeto que tiene el id especificado
-
-    if (this.#carts[indice].products = []){                               // si el objeto tiene propiedad producto con array vacio...
-      this.#carts[indice].products = [{stock:1, idproduct : idprod}]
-
-    }else{
-      let stock = this.#carts[indice].products...... // no se como leer el stock en toda esa ruta de arreglos y objetos...
-          
 
 
-    }
+// Agregar productos al carrito
 
-    
+async AgregarProducto(idcart, Idprod) {
 
+  await this.#readFile()
+  
+  
+  let index = this.#carts.findIndex(el => el.id === parseInt(idcart))  // verifica si existe un carrito con ese id. Daba error debido a que traia el parametro como string
 
-
-
-
+ 
+  if (index < 0) throw new Error ("Cart not found")
+  
+  const productIndex = this.#carts[index].products.findIndex(item => item.id === parseInt(Idprod)) // aqui verificas si el carrito ya tiene un producto con el id que viene por params
+  
+  if (productIndex >= 0) { // si existe aqui se aumenta la cantidad
+  
+  const newProduct = {
+  
+  id: Idprod,
+  
+  quantity: this.#carts[index].products[productIndex].quantity + 1,
+  
+  }
+  
+  this.#carts[index].products[productIndex] = newProduct
+  
+  } else { // si aun no existe el producto en el carrito lo agrega
+  
+  const newProduct = {
+  
+  id: Idprod,
+  
+  quantity: 1
+  
+  }
+  
+  this.#carts[index].products.push(newProduct)
+  
+  }
+  
+  this.#writeFile()
+  
+  return this.#carts[index].products
+  
   }
 
 
@@ -84,5 +109,10 @@ class CartManager {
 
 
 }
+
+
+
+
+
 
 module.exports = CartManager;

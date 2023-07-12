@@ -40,30 +40,17 @@ router.get('/:id', async (req, res) => {
 
 
 
-/*
+// Agregar productos al carrito  Post http://localhost:8080/api/carts/1/products/3
 
-// Obtener productos por id del carrito   Get http://localhost:8080/api/carts/2
+router.post('/:idcart/products/:idprod', async (req, res) => {
+  const {idcart, idprod } = req.params
 
-router.get('/:id', async (req, res) => {
-    let id = req.params.id  
-    let productos = await cartmanager.getById(id)
+   await cartmanager.AgregarProducto(idcart, idprod)
 
-  res.send(productos)
+  res.send(idprod)
 })
 
 
-
-// Agregar productos al carrito  Post http://localhost:8080/api/carts/
-
-router.post('/', async (req, res) => {
-  const { body } = req
-
-  const created = await cartmanager.create(body)
-
-  res.send(created)
-})
-
-*/
 
 
 module.exports = router
