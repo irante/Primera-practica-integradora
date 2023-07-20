@@ -58,8 +58,8 @@ router.post('/', async (req, res) =>  {
     res.status(400).send("Debe enviar todos los campos")
   } else{
   const product = await productManager.create(body)
-  
-  res.status(201).send(product)
+
+  res.status(201).send(product)                     // envia al cliente el producto agregado
  
 
   }

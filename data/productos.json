@@ -180,5 +180,60 @@
     "status": true,
     "category": "tabletas",
     "id": 21
+  },
+  {
+    "title": "teclado mecanico",
+    "descripcion": "Teclado Reddragon",
+    "price": 38700,
+    "thumbnail": "./reddragon.jpg",
+    "code": "wpp10",
+    "stock": 2,
+    "status": true,
+    "category": "teclado",
+    "id": 22
+  },
+  {
+    "title": "teclado membrana",
+    "descripcion": "Teclado Reddragon",
+    "price": 8700,
+    "thumbnail": "./reddragon1.jpg",
+    "code": "wss10",
+    "stock": 12,
+    "status": true,
+    "category": "teclado",
+    "id": 23
+  },
+  {
+    "title": "pendrive",
+    "descripcion": "Pendrive Kingston",
+    "price": 4700,
+    "thumbnail": "./kingston1.jpg",
+    "code": "wtte10",
+    "stock": 10,
+    "status": true,
+    "category": "teclado",
+    "id": 24
+  },
+  {
+    "title": "Notebook",
+    "descripcion": "Notebook Asus",
+    "price": 344700,
+    "thumbnail": "./Asusl740.jpg",
+    "code": "Asl740",
+    "stock": 3,
+    "status": true,
+    "category": "teclado",
+    "id": 25
+  },
+  {
+    "title": "Notebook",
+    "descripcion": "Notebook Lenovo",
+    "price": 444700,
+    "thumbnail": "./Lenovo1240.jpg",
+    "code": "le1240",
+    "stock": 2,
+    "status": true,
+    "category": "teclado",
+    "id": 26
   }
 ]

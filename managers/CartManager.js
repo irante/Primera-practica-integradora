@@ -37,7 +37,7 @@ class CartManager {
 
     await this.#writeFile()
 
-    return newProduct
+    return newCart
   }
 
   // obtener los productos del carrito con id especificado
