@@ -1,104 +1,61 @@
 
 const fs = require('fs/promises')
 const path = require('path')
+const productModel = require('../models/product.model')
+
+
 
 class ProductManager {
-
-  #products = []        // variable privada, no podemos acceder a ella desde fuera de la clase.
-
-  constructor(filename) {
-    this.filename = filename
-    this.filepath = path.join(__dirname, '../data', this.filename)     
-  }
-
-  #readFile = async () => {
-    const data = await fs.readFile(this.filepath, 'utf-8')
-    this.#products = JSON.parse(data)
-  }
-
-  #writeFile = async() => {
-    const data = JSON.stringify(this.#products, null, 2)
-    await fs.writeFile(this.filepath, data)
-  }
+  
 
   
   //Obtener todos los productos
 
   async getAll() {
-    await this.#readFile()
-
-    return this.#products
+    const products = await productModel.find().lean()       // lo que regresa el array es un objeto de moongose, lean() lo convierte en un objeto de js
+    return products
   }
 
   //Obtener Productos por id
 
   async getById(id) {
-    await this.#readFile()
+    const products = await productModel.find({ _id: id })
 
-    return this.#products.find(p => p.id == id)
+    return products[0]  // regresa el primero de la lista
   }
 
  
   // Agregar Producto
   async create(product) {
-    await this.#readFile()
-
-    const id = (this.#products[this.#products.length - 1]?.id || 0) + 1
-
-    const newProduct = {
-      ...product,
-      id
-    }
-
-    this.#products.push(newProduct)
-
-    await this.#writeFile()
-
-    return newProduct
+    const producto = await productModel.create(product)
+    return producto
   }
 
 
-  //
-  async save(id, product) {
-    await this.#readFile()
+  // Actualizar producto
+  async update(id, product) {
 
-    const existing = await this.getById(id)
+    const result = await productModel.updateOne({ _id: id }, product)
 
-    if (!existing) {
-      return
-    }
-
-    const {
-      title,
-      description,
-      stock,
-      price,
-      keywords
-    } = product
-
-    existing.title = title
-    existing.description = description
-    existing.stock = stock
-    existing.price = price
-    existing.keywords = keywords
-
-    await this.#writeFile()
+    return result
+   
   }
 
 
   // Eliminar productos
 
   async delete(id) {
-    await this.#readFile()
-
-    this.#products = this.#products.filter(p => p.id != id)
-
-    await this.#writeFile()
+   
+      const result = await productModel.deleteOne({ _id: id })
+  
+      return result
+   
   }
 
 
 }
 
 
-module.exports = ProductManager
 
+
+module.exports = new ProductManager() // singleton => se exporta la instancia que se usara el otros modulos. Cada modulo no tendrea que instanciar nuevamente

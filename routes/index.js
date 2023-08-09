@@ -33,6 +33,14 @@ router.use('/', HomeRoutes)
 router.use('/realTimeProducts', RealtimeRoutes)
 
 
+// Ruta De chat
+router.use('/chat', (req, res) => {
+    res.render('chat')
+    
+  })
+
+
+
 module.exports = router       
 
 

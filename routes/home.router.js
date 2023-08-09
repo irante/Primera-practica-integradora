@@ -1,7 +1,7 @@
 const { Router } = require('express')
-const path = require('path')
-const ProductManager = require('../managers/ProductManager')
-const productManager = new ProductManager('productos.json')
+
+const productManager = require('../managers/ProductManager')
+
 
 const router = Router()
 
@@ -9,6 +9,7 @@ const router = Router()
 router.get('/', async (req, res) => {
   
   const products = await productManager.getAll()
+  
   
 
   res.render('home', {                  // renderizamos la plantilla home.handlebars como inicio.  http://localhost:8080/
@@ -21,7 +22,6 @@ router.get('/', async (req, res) => {
   
 
 })
-
 
 
 module.exports = router

@@ -6,11 +6,11 @@
     const router = Router()     // Aca se crea el router. se llama a la funcion guardandola en la constante router/
 
 
-// importo la clase ProductManager e instancio 
+// importo la clase ProductManager, ya no necesito  instanciar 
 
-    const ProductManager = require('../../managers/ProductManager') // no se usa la extension del archivo en el require
+    const productManager = require('../../managers/ProductManager') // no se usa la extension del archivo en el require
 
-    const productManager = new ProductManager('productos.json')
+    
 
 
 
@@ -37,16 +37,21 @@ router.get('/', async (req, res) => {
 router.get('/:id', async (req, res) => {
   let id = req.params.id
 
-  const product = await productManager.getById(id)
+  try {
+    const product = await productManager.getById(id)
 
-  if(!product) {
-    res.sendStatus(404)
+    if (!product) {
+      res.sendStatus(404)
+      return
+    }
+
+    res.send(product)
+  } catch(e) {
+    console.log(e)        // imprimo el error
+    res.sendStatus(500)
     return
   }
-
-  res.send(product)
 })
-
 
 
 // Agregar productos  ==> Post http://localhost:8080/api/products/
@@ -66,21 +71,22 @@ router.post('/', async (req, res) =>  {
 
 })
 
-
 // Actualizar Productos   ==> Put http://localhost:8080/api/products/14
 
 router.put('/:id', async (req, res) => {
   const { id } = req.params
   const { body } = req
-
   try {
-    if (!await productManager.getById(id)) {
-      res.sendStatus(404)
+    const result = await productManager.update(id, body)
+
+    console.log(result)
+    if (result.matchedCount >= 1) {
+      res.sendStatus(202)
       return
     }
 
-    await productManager.save(id, body)
-    res.sendStatus(202)
+    res.sendStatus(404)
+    
   } catch(e) {
     res.status(500).send({
       message: "Ha ocurrido un error en el servidor",
@@ -88,6 +94,7 @@ router.put('/:id', async (req, res) => {
     })
   }  
 })
+ 
 
 
 
@@ -95,14 +102,16 @@ router.put('/:id', async (req, res) => {
 router.delete('/:id', async (req, res) => {
   const { id } = req.params
 
-  if (!await productManager.getById(id)) {
-    res.sendStatus(404)
+
+  const result = await productManager.delete(id)
+  console.log(result)
+
+  if (result.deletedCount >= 1) {
+    res.sendStatus(200)
     return
   }
 
-  await productManager.delete(id)
-
-  res.sendStatus(200)
+  res.sendStatus(404)
 })
 
 

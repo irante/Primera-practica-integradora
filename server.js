@@ -1,14 +1,28 @@
-const express = require('express')
+// IIFE Immediate Invoke Function Expression
+(async () => {
+
 const http = require ('http')     // requerido para websockets
-const { Server } = require ("socket.io") // requerido para websockets
+const path = require('path')
+
+const express = require('express')
 const handlebars = require('express-handlebars')
+const { Server } = require ("socket.io") // requerido para websockets
+const mongoose = require('mongoose')
+
 
 const routes = require ('./routes/index.js') 
 
 const socketManager = require('./websocket')
 
-const path = require('path')
 
+try {
+  // conectar la base de datos antes de levantar el server => Mongo Atlas: mongodb+srv://USUARIO:CONTRASEÑA@cluster0.ewuqtys.mongodb.net/BASE_DE_DATOS?retryWrites=true&w=majority
+                                                                  //Local: mongodb://localhost:27017/ecommerce
+  
+  
+  await mongoose.connect("mongodb+srv://irante:flame360@cluster0.8qme5x7.mongodb.net/ecommerce?retryWrites=true&w=majority")
+
+  
 const app = express()         //app express
 
 const server = http.createServer(app)     // server http montado con express. se embebe la app de express en createserver (websockets)
@@ -37,3 +51,10 @@ const port = 8080
 server.listen(port, () => {
   console.log(`Express Server listening at http://localhost:${port}`)
 })
+
+console.log('se ha conectado a la base de datos')
+} catch(e) {
+  console.log('no se ha podido conectar a la base de datos')
+  console.log(e)
+}
+})()
